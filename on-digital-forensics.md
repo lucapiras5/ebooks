@@ -1,5 +1,9 @@
 # On digital forensics
 
+*Written by Luca Piras.*
+
+*This document is released under the CC BY-SA 4.0 license.*
+
 ## Introduction
 
 This document is a translated summary of the final dissertation I wrote for master's degree in law at the University of Bologna. I initially wrote it as a student who was interested in digital forensics, but I had no practical experience in the field. It was entirely the product of the legal knowledge acquired during my academic studies, and my technical experience as a self-taught programmer and GNU/Linux user.
@@ -16,7 +20,7 @@ At the time of writing my dissertation my criticisms against proprietary softwar
 
 Proprietary software is indeed **prohibitively expensive**. The company I worked with spent tens of thousands of euros in licenses alone each year. The high cost meant that we could only work with a **limited number of licenses** at the same time, which reduced productivity (we had to take turns while using software) and increased stress (we constantly had to plan around the limited number of licenses, especially when we had to take the license dongles out on the field, and so they wouldn't be available to those who remained in the office).
 
-Software was **extremely inefficient** (despite us running it on powerful hardware), and lacked the most basic quality-of-life features. In particular, during long-running operations it would hardly report any detailed progress for long stretches of time, leading the user to wonder if it'd gotten stuck. Sometimes it would truly get stuck, and this resulted in even more productivity, since one could only find out long after the fact.
+Software was **extremely inefficient** (despite us running it on powerful hardware), and lacked the most basic quality-of-life features. In particular, during long-running operations it would hardly report any detailed progress for long stretches of time, leading the user to wonder if it'd gotten stuck. Sometimes it would truly get stuck, and this resulted in even more lost productivity, since one could only find out long after the fact.
 
 Software was **unforgiving**. It was impossible to pause or resume operations, and if an operation had even the slightest issue during its execution the only fix was deleting everything, and starting over. The same fix applied in case someone forgot to enable an analysis method, as many pieces of software didn't support running additional analysis later.
 
