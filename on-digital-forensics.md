@@ -4,216 +4,153 @@
 
 *This document is released under the CC BY-SA 4.0 license.*
 
+- [On digital forensics](#on-digital-forensics)
+  - [Introduction](#introduction)
+  - [Digital forensics](#digital-forensics)
+  - [Scientific research in digital forensics](#scientific-research-in-digital-forensics)
+  - [Importance of free software in scientific research](#importance-of-free-software-in-scientific-research)
+  - [Digital forensics in legal proceedings](#digital-forensics-in-legal-proceedings)
+- [CONTINUE HERE](#continue-here)
+  - [Source code and machine code](#source-code-and-machine-code)
+  - [Free software and proprietary software](#free-software-and-proprietary-software)
+  - [Software licenses](#software-licenses)
+  - [Downsides of proprietary software](#downsides-of-proprietary-software)
+  - [My personal experience with proprietary software](#my-personal-experience-with-proprietary-software)
+  - [Benefits of free and open software](#benefits-of-free-and-open-software)
+  - [Factors to assess software quality](#factors-to-assess-software-quality)
+  - [Good development practices for free software](#good-development-practices-for-free-software)
+  - [Free software for digital forensics](#free-software-for-digital-forensics)
+  - [Conclusion](#conclusion)
+
 ## Introduction
 
-This document is a translated summary of the final dissertation I wrote for master's degree in law at the University of Bologna. I initially wrote it as a student who was interested in digital forensics, but I had no practical experience in the field. It was entirely the product of the legal knowledge acquired during my academic studies, and my technical experience as a self-taught programmer and GNU/Linux user.
+This document is a translated summary of the final dissertation I wrote for master's degree in law at the University of Bologna, and a retrospective analysis of its merits.
 
-My argument is that at present, it's **almost impossible not to use digital evidence** at least in some capacity during legal proceedings. **Digital forensics** is the science that studies digital evidence, and provides the technical tools to handle it in the context of legal proceedings and the scientific knowledge necessary to evaluate it.
+My dissertation was concerned with the **use and advantages** of **free and open source (FOSS) software, as opposed to proprietary software** for the **handling and analysis of digital evidence in legal proceedings**.
 
-Digital forensics makes use of two sets of software tools. The first assists **scientific research**, and is used to analyze data and software to learn how they're structured and how they work. The second is based on the results of that scientific research, and their purpose is to **acquire, preserve and analyze** digital evidence in legal proceedings.
+My **argument** was that FOSS software is **always preferable to proprietary software** because it results in **publicly-available scientific research** in the field of digital evidence, and its scientific foundations and technical functioning are **fully reviewable** in the context of a legal proceeding. There are other reasons, which will be analyzed further, but these are the most significant ones.
 
-Both research and its practical application in proceedings are matters that shouldn't be taken lightly. These tools bear a significant responsibility, they'll ultimately be used to assist judges in making potentially life-changing decisions for a defendant in a trial. 
+This document is organized as follows. The first section will explain what are the differences between FOSS and proprietary software. In order to do that, it will explain the difference between source code and machine code, and the difference between non-free (proprietary) software licenses and free software licenses.
 
-My proposal is to **carry out scientific research in the open, and embrace the free and open source model** for software that's developed in the context of digital forensics, both for research and for use in the service of legal proceedings. This is opposed to the current dominant model, which is one where both research and tools are proprietary.
+The second section will explain what is digital forensics. It will provide a definition of the subject, its importance, its ties to the scientific method and legal proceedings, the peculiar characteristics of digital data, and why the FOSS model is a better fit for the subject.
 
-At the time of writing my dissertation my criticisms against proprietary software were based on speculation and informed guesses. During an **internship I gained some practical experience**, and found that most of my predictions turned out to be accurate.
-
-Proprietary software is indeed **prohibitively expensive**. The company I worked with spent tens of thousands of euros in licenses alone each year. The high cost meant that we could only work with a **limited number of licenses** at the same time, which reduced productivity (we had to take turns while using software) and increased stress (we constantly had to plan around the limited number of licenses, especially when we had to take the license dongles out on the field, and so they wouldn't be available to those who remained in the office).
-
-Software was **extremely inefficient** (despite us running it on powerful hardware), and lacked the most basic quality-of-life features. In particular, during long-running operations it would hardly report any detailed progress for long stretches of time, leading the user to wonder if it'd gotten stuck. Sometimes it would truly get stuck, and this resulted in even more lost productivity, since one could only find out long after the fact.
-
-Software was **unforgiving**. It was impossible to pause or resume operations, and if an operation had even the slightest issue during its execution the only fix was deleting everything, and starting over. The same fix applied in case someone forgot to enable an analysis method, as many pieces of software didn't support running additional analysis later.
-
-Software was **poorly documented**. The manuals and built-in help didn't provide useful advice, so they always left the user with a lingering doubt as to whether they were missing something and whether the results were actually what they expected them to be. This often led to different coworkers giving each other conflicting advice, which led to uncertainty, confusion, and even more lost productivity.
-
-Software **did not provide useful error messages**. Operations would usually fail silently, with no explanation or warning. In the cases a notice was produced, it would be an extremely generic error message with no indication regarding what went wrong, any possible causes, or how to fix it.
-
-Software was **unstable and unreliable**. Tools crashing for no reason or getting stuck while processing data was a daily occurrence for each employee, and an hourly one office-wide. If simply restarting the process didn't work, one had to rely on support. Support tickets were routinely closed without solving the problem, but even when solutions were provided they usually didn't last long before another issues would arise. Employees probably spent as much time troubleshooting issues as they did doing productive work.
-
-Software sometimes presented **arbitrary limitations**. Having some experience in programming, I know that arbitrary limitations are often a symptom of issues in the underlying code that haven't been addressed, and the easier fix is simply to introduce a limitation instead of reworking the software to be more flexible or efficient.
-
-Software was **inflexible**, perhaps under the guise of streamlining the workflow in order to make it more intuitive. If the software did allow users to write extensions, it was so difficult and poorly documented that it may as well not have been a feature at all.
-
-Software was **resilient to automation**. Everything had to be done by hand, and there was often no way to batch operations in advance, meaning that users had to access their workstations remotely after leaving work and returning home in order to ensure that work would get done in a timely manner.
-
-Software was **limited in its output formats**. There was rarely an option to produce output in a structured data format that was easy to process further, most options were intended for creating reports for non-technical users.
-
-On several occasions **I wrote purpose-built tools to parse those formats and automate work**. The alternative was mind-numbing menial labor, which the software could (and should) be doing for the user, especially given how much it costs.
-
-In sum, proprietary software presents users with an **experience that's so unpolished, that it raises questions** about the quality of the code at large. The developers definitely took shortcuts in the user-facing parts of the software, but did they do so in the most delicate parts of the software, the ones which actually analyze data?
-
-An optimist interpretation is that the developers focused their efforts there, to the detriment of everything else. A pessimist interpretation is that it's just as unreliable as the rest. In truth, it's **hard to answer that question in a definitive manner**, given that it's proprietary software and it has no incentive to disclose its source code. In fact, there may be legal limitations in place, such as non-disclosure agreements.
-
-All of the aforementioned **grievances could be addressed by switching to free and open source software**. This would empower users to smooth out rough edges, inspect the software to be able to know what it's doing under the hood, extend it to suit their needs, and let everyone benefit from these improvements.
-
-The rest of this document will explain why that's the case.
+The last section will provide examples of FOSS in digital forensics.
 
 ## Digital forensics
 
-**Digital forensics** is the **forensic science** that studies **digital devices and digital data**.
+**Digital forensics** is the **forensic science** that studies **how digital systems and digital data work**.
 
-This definition is kept **as generic as possible** on purpose, given the immensely pervasive and deeply entrenched reliance on digital devices and digital data for nearly any human endeavor, and the **particular characteristics of digital data**.
-
-The catalyst for the development of digital forensics were **harmful actions that could be only committed by means of a computer, or against another one**. In many cases it was impossible to apply existing criminal statutes by interpreting them broadly. There were attempts to do so, but they bordered on unconstitutionality by being too arbitrary.
-
-For example, could using a computer system and then charging the cost on someone else be considered larceny? Should be unauthorized access to a computer system be considered trespass? Could a computer virus that damages data fall under the definition of damage to property? According to the *vagueness doctrine*[^vagueness-doctrine] criminal law can't afford to be vague or imprecise, so lawmakers enacted **criminal statutes punishing these novel computer crimes** [^nugent1991]. These statues are of interest to digital forensics because they provide the foundation of the entire subject.
+The catalyst for the development of digital forensics were **harmful actions that could be only committed by means of a computer, or against another one**. There were attempts to interpret traditional criminal statutes broadly (for example, using a computer system and then charging the cost on someone else could be prosecuted as larceny, unauthorized access to a computer system could be prosecuted as trespass), but these interpretations were deemed too vague and imprecise to be constitutional under the *vagueness doctrine*[^vagueness-doctrine]. As such, lawmakers enacted **criminal statutes that specifically punished computer crimes** [^nugent1991].
 
 [^nugent1991]: See H. Nugent, *State Computer Crime Statutes* (1991). <https://www.ojp.gov/pdffiles1/Digitization/128780NCJRS.pdf>.
 [^vagueness-doctrine]: See Constitution Annotated, *Amdt5.8.1 Overview of Void for Vagueness Doctrine*. <https://constitution.congress.gov/browse/essay/amdt5-8-1/ALDE_00013739/>.
 
-The only way to prove these computer crimes is to **gather evidence from the systems that were used to commit the crime and the affected systems**, but this evidence is digital in nature, and the matters of gathering, handling and making sense of this kind of evidence were uncharted waters. This is what led to the creation of *computer forensics*.
+The **only way to prove** these new crimes was to gather **digital evidence from the systems involved in the incident**. The study of **how to best acquire, preserve, analyze and interpret digital evidence** was initially called *computer forensics*. It later became known more generically as *digital forensics*, since its scope had expanded to all the digital technologies that had developed over time, such as computer networks, mobile devices, cloud storage, cryptocurrencies, and so on.
 
-As time went on, computer networks and mobile devices became ubiquitous. New software technologies like cloud storage, cloud computing and Bitcoin were introduced. This **created new sub-fields**, such as network forensics, mobile forensics, cloud forensics, blockchain forensics, and many more. *Digital forensics* is the umbrella term that encompasses all these fields.
+The purpose of digital forensics is to **study how hardware and software works**, in order to assist **law-makers and judges** with the necessary technical knowledge to **make informed decisions** while writing **substantive and procedural law**, and when **evaluating digital evidence** during legal proceedings.
 
-Throughout its history **digital forensics has been concerned with the study of these technologies**, much like how biology is concerned with the study of all living things. Biology studies the components of living things, what substances they produce during their lifecycle, how external substances affect them.
+For a **practical example** of the kind of domain-specific knowledge that digital forensics can provide, let's assume that one wants to prove that someone visited an internet website.
 
-Likewise, digital forensics studies **how digital systems are structured**, **what traces** of their functioning they produce, how users or software can **affect the system's functioning or the traces** it produced.
+The **most intuitive** way to do it would be to turn on the suspect's device, open the browser, and search for traces of that website. However, this is also the **most harmful**, since it's akin to a coroner handling a corpse without wearing gloves and using tools that haven't been sanitized. Booting a computer and opening programs is extremely invasive, and directly alters the evidence. After a computer is booted and during its operation, there are many services running in the background, manipulating files, and possibly changing or overwriting useful traces.
 
-For a **practical example** of the kind of domain-specific knowledge that digital forensics can provide, let's assume that one wants to prove that someone visited an internet website, and that the suspect's device was turned off at the time it was seized by the police.
+The **proper approach** to handling evidence is much more involved, and requires using specialized software to create multiple copies of the device's internal drive called *forensic images*, calculating their *cryptographic hash digest* so that their integrity can be verified, using specialized software to process the images and extract the browsing history, and where feasible, using multiple approaches to make sure that they all come to the same conclusions.
 
-The **most intuitive** way to do it would be to turn on the suspect's device, open the browser, and search for traces of that website. However, this is also the **most harmful**, since it's akin to a coroner handling a corpse without wearing gloves and using dirty tools. Booting a computer and opening programs is extremely invasive, and alters the evidence.
+Furthermore, these steps should be carried out by an expert who is **knowledgeable** about the current best practices, **aware** of the legal significance of what they are doing, and capable of **arguing in defense** of their approach in front of the judge.
 
-After a computer is booted and during its operation, there are many services running in the background, manipulating files, and possibly changing or overwriting useful traces. The safe approach to handling evidence is much more involved, and requires using specialized software to create multiple copies of the device's internal drive called *forensic images*, calculating their *cryptographic hash digest* so that their integrity can be verified, using specialized software to process the images and extract the browsing history, and where feasible, using multiple approaches to make sure that they all come to the same conclusions.
+Digital forensics was originally developed in the context of crimes against digital systems, but it's also relevant when a **traditional crime is committed by means of a computer** (e.g., wire fraud or libel on social media), or even when **computers contain useful evidence** that another crime has been committed (e.g., a sale of illicit goods that was conducted in person, but the parties talked organized the sale online prior to meeting).
 
-This is just a **high-level overview**. In practice, one needs to be aware of possible side-effects, trade-offs and caveats of the approach they're taking, both in order to use the least invasive techniques on the original evidence, and to be able to defend their approach if it's called into question, or provide a honest assessment of how reliable the conclusions are.
+## Scientific research in digital forensics
 
-Therefore, the purpose of digital forensics as a science is to research the lifecycle of digital data and digital systems, bearing in mind that the purpose of this research is **not to accumulate knowledge for knowledge's sake** (which would be the purpose of a pure science), but to use this knowledge to **solve legal problems** (this is what the adjective "forensics" is about).
+I believe that digital forensics is a science, and that **digital systems** can be studied using the **scientific method**. There are two reasons for doing so.
 
-As such, **procedural law** is of extreme interest for digital forensics. Much like how substantive law had to be amended in order to create new crimes that didn't exist before, procedural law should also contain **provisions for handling digital evidence**, and digital forensics is the subject that can define the **fundamental guiding principles** that should be mentioned in these provisions.
+The first is the ever-increasing **complexity of digital systems**. Hardware and software are complex, continuously evolving, and their functioning and mutual interaction between systems become ever more **intricate and unpredictable**. This means that making **ahead-of-time, deductive predictions** about how a system is going to behave based only on its publicly available documentation is **not good enough**. The documentation may be incomplete, inaccurate, or lacking for the purposes of digital forensics.
 
-While digital forensics was originally developed to deal with computer crimes, it can still be **used in the context of traditional crimes**, when they're committed **by means of a computer** (e.g., wire fraud or libel on social media), or even when **computers contain evidence** that a crime has been committed, or even just leads (e.g., a sale of illicit goods that was conducted in person, but the parties talked organized the sale online prior to meeting).
+Rather, the **only reliable knowledge and predictions** about how systems work are the ones obtained through **empirical observations and inductive reasoning**. In other words, digital forensics **builds a theoretical model** of how digital systems work, and then **validates and improves that model** through experiments, just like scientists do. The scientific knowledge accumulated in this way can then be used to inform decisions in a legal proceeding.
 
-## Challenges in digital forensics
+The second reason is that **digital devices are programmable** and **digital data be duplicated infinitely**, with **every copy being identical** down to the last bit. This makes digital systems the **ideal subject for scientific experiments**.
 
-The previous section introduced the purpose and usefulness of digital forensics. This paragraph outlines the most pressing challenges in the subject, and how to deal with them.
+Scientists must **repeat** experiments over and over to ensure that their results are consistent, and then an independent group of scientist will attempt to **reproduce** the experiment, to validate or disprove the results. Every repetition must have the same starting conditions, precautions must be taken so that the the external environment doesn't affect the experiment, and resetting the test environment between repetitions may take a significant time and resources. These are issues in natural sciences, because scientists don't perfectly control the environment.
 
-The first issue is the **exponential rate of growth in technological evolution**. Hardware and software is continuously evolving. It's challenging enough to keep up-to-date with new technologies, let alone publish and peer-review scientific studies on how to analyze them.
+On the other hand, digital forensics researchers can **program a computer so that it automatically** to **resets itself to the starting conditions**, then **runs the experiment**, **validates the results** and **produces a report**. They have **full control over the environment** the experiment is run in, and they can **create a copy** of this environment and **share it** with other researchers, who can then run it on their own machines and try to **falsify the results**.
 
-This is compounded by the fact that **scientific research in how digital systems work is often hampered by various hurdles**. They may be **economic** (the high cost of acquiring these systems in the first place), **technical** (these systems may have anti-tampering measures in place that make it challenging to inspect their functioning), due to a **lack of documentation** (documentation may be completely absent, or limited to only a high-level overview), or due to **legal limitations** (licenses, NDAs and trade secrets can prevent researchers from learning more about these systems, or publishing their findings).
+If different researchers obtain different results, then **the model is improved**, until it produces **consistent results**. For example, let's suppose that a researcher is trying to learn how an undocumented file format is structured. Through a process of trial and error, they manipulate parts of the file, observe the effects of these changes, and **document how the file is structured**. Finally, they will **write a program that can extract information** out of the file, according to their research.
 
-Furthermore, **digital data is fragile**. The essence of digital data is that it's just a long list of discrete values, in other words, a **sequence of digits**, which are **stored on a physical medium**, such as hard disks.
+The documentation and the program is shared with other scientists, who then proceed to run the program on their own samples of this file type. If the program produces reasonable outputs, it can be believed that it's working correctly. If it fails to analyze the data, this means that the file type is more complex than what was believed. The scientific method cycle starts over, until it produces a theoretical model and analysis software that's more capable, and can handle inputs that the previous model couldn't.
 
-Physical media is subject to **deterioration**, which means that data stored on them can become unreadable, or be subject to **random bit flips**, where the value of a single bit changes. While this may seem like a minor issue, **even a single bit flip is enough to change information**, such as a date. If someone has physical access to the storage medium, they can also **tamper with its contents**, by wholly erasing it, or carefully changing certain elements, such as the timestamp on a file, or deleting all traces of a file.
+Scientific research produced by digital forensics researchers consists of two parts, the **documentation** of how a certain system (some feature of an operating system, a program, a file format, a network protocol, and so on) **has been observed to work**, and **software** that is based on their findings and can **extract useful data**.
 
-Users need to know how to **interpret binary data** in order to make sense of it. The rules that convert human-readable information into binary data are called "**encodings**", and the process of turning binary data back into human-readable information is called **decoding**.
+## Importance of free software in scientific research
 
-Using the **incorrect decoding rules**, or **the correct decoding rules on data that's been damaged** (either through natural deterioration or willful intervention) will result in data that's completely **meaningless** at best, or **inaccurate** in subtle, hard-to-detect ways in the worst case.
-
-Even if this tampering can be detected, it's **usually impossible to reconstruct the original data** was, since the data stored on a device can be **changed without leaving traces**. At best, one can only provide various explanations of what may have happened.
-
-## The silver lining of digital data
-
-The challenges outlined in the previous sections paint the subject in a rather **unflattering light**. Digital data is generally useful as **circumstantial evidence**, and in the case of computer crimes it's the only kind of **direct evidence** that's available. And yet, it's **volatile and hard to make sense of**. However, that doesn't mean that digital forensics is an exercise in futility, a doomed attempt at trying to create order out of chaos.
-
-For all of digital data's faults there is a silver lining. Digital data can be **copied an infinite amount of times**, **each copy is indistinguishable from the original**, and that it's **easy to demonstrate the integrity of copies**.
-
-Conventional (non-digital) evidence can't be copied, since it's impossible to perfectly reproduce the material arrangement of an object down to the atomic level. Even with things like photocopies, it's always possible to distinguish between the original and its copy.
-
-At best one may create many **representations** of that evidence, such as taking pictures of the crime scene, but the pictures are not a substitute for the actual crime scene. Besides, once **non-digital evidence decays** due to natural causes, or it's **irreversibly damaged** due to the use of an invasive analysis technique, it's **impossible to return to a prior state**. 
-
-On the other hand, **digital evidence can be easily copied**. It essentially consists of a sequence of digits, so as long as those digits are reproduced in an identical fashion, one has obtained an **exact copy of the original**, and **the original and the copy are perfectly interchangeable**.
-
-Digital evidence too is susceptible to decay or damages, and as such it's always advisable to create multiple copies, as to always preserve a **backup of the original**.
-
-It's possible to create a **representation of digital evidence** as well. For example, by printing an email message. However, the printed representation (a sheet of paper) is **not interchangeable** with the original email (digital data), it can't be analyzed or copied in the same way, they're entirely different things.
-
-This point can't be stressed enough. Digital evidence **must remain preserved in its digital form**, and may be **degraded into a representation** for **illustrative purposes only**. Representations of digital evidence are never a substitute for the original, and if **evidence is to be re-examined** for any reason, then one should look at the **digital evidence, not its representation**.
-
-Finally, it's possible to **determine whether a copy is still intact** or not, by using **cryptographic hash functions**. A *hash function* takes an arbitrary amount of digital data as input, and returns a **fixed-length** amount of digital data as output, called the *digest*, with the guarantee that identical inputs will always produce identical digests. This characteristic is called **determinism**. A common analogy is to think of a digest as the **fingerprint of a piece of data**.
-
-The adjective *cryptographic* refers to certain security guarantees about the function.
-
-The first is the **avalanche effect**, whereby flipping a single bit in the input flips half of the bits in the digest, meaning that even the **smallest possible alteration** in the input will result in a **very noticeable difference** in the digest, which can be caught at a glance.
-
-The second is **collision resistance**, whereby two different inputs should not produce the same output. Since the digest has a fixed length, but the input data can have an arbitrary length, by the *pigeonhole principle* it's certain that different inputs may map to the same digest. The design of cryptographic hash functions tries to minimize the likelihood of this happening in a predictable fashion.
-
-The last one is **second preimage resistance**, whereby if one knows the input data and its digest, it's unfeasible to find a different input that produces the same output.
-
-The first characteristic is useful to find **accidental bit-flips** in the data, usually caused by natural decay or errors while copying the data. The latter two are useful to catch **intentional tampering** of the data.
-
-The digest should be calculated **after copying the data for the first time**, and then **whenever a copy of the data is used**, to ensure that it's **still identical** to the original.
-
-Cryptographic hash functions are the **cornerstone** of digital forensics, because they represent one element of **stability**. They demonstrate that in spite of all its drawbacks digital data can be **reliably duplicated and preserved over time**, which can't be said for conventional evidence.
-
-## Scientific rigor in digital forensics
-
-The fact that digital data can be duplicated and preserved reliably is significant, because it makes it the perfect candidate for study by the **scientific method**. In fact, its other shortcomings necessitate the use of the **most rigorous** method of study that is available, in order to produce a body of the **most reliable** knowledge possible.
-
-Computers are **programmable**, meaning that they can be instructed to follow a **specific procedure on a specific starting condition**, which consists of the digital data or system that is being studied. This means that they can be used to **mechanically perform experiments, verify the results, and produce a report**.
-
-The data and software that comprise the experiment then be **shared**, so that other researchers can **re-run the experiment** for themselves, and **attempt to falsify** the results.
-
-If the **results hold true**, then it means that the **theory is valid**. If the **experiment fails**, then it means that **adjustments have to be made**.
-
-For example, let's suppose that a researcher is trying to learn how an undocumented file format is structured. They can manipulate parts of the file, and see what effects these manipulations have. Through a process of trial and error, they begin to document the various parts of the file, and then they write a program that can read this file type, and extract  information out of it.
-
-The documentation and the software is shared with other scientists, who then proceed to run the program on their own samples of this file type. If the program produces reasonable outputs, it can be believed that it's working correctly. If it fails to analyze the data, this means that the file type is more complex than what was believed. The scientific method cycle begins anew, and it'll end when a new version of the software that is capable of analyzing the file that the previous version couldn't is released, along with the revised documentation of the format.
-
-The importance of **freely and openly sharing the results of scientific research** cannot be stressed enough. The free flow of information allows science to thrive and benefits everyone, since everyone can join in on the **falsification process**, and stimulate the improvement of better, more accurate knowledge.
+The importance of **freely and openly sharing the results of scientific research** cannot be stressed enough. The free flow of information allows science to thrive and **benefits everyone**, since everyone can join the **falsification process**, and stimulate the improvement of better and more accurate theoretical models that will be made available to the public.
 
 On the opposite end of openness and transparency is **proprietary research**, which is **kept secret from the public**. This results in an immediate **loss of rigor and efficiency**, since there is no public oversight to falsify the theories and test the tools that have been produced. Furthermore, this research **exclusively benefits the private entities** that use it to develop and sell products and services at (often) **high price points**, given the small (or non-existent) pool of competitors.
 
+This **distinction between public and proprietary research** is reminiscent of the **distinction that exists between FOSS and proprietary software**. Free and open source software was not developed specifically in the context of scientific research, but it's undeniable that public scientific research and FOSS are in synergy with each other and **share similar values**.
+
+The software developed **during scientific research** (the software that runs experiments on data) or that **implements scientific findings** (the software that is based on the scientific model that was created and analyzes data) should be released as **free software** and the **source code** should always remain available. This ensures that other researchers can always **study** this software, **verify** its correctness, **improve** it if there are issues or new discoveries, and freely **redistribute** it to other researchers or end-users.
+
+Ideally, the **software used to study the systems** (the software that scientists use to modify and study data) should **also be free software** itself. This would ensure that **all software that is used or produced** in the context of scientific research is free software and benefits from its advantages.
+
 ## Digital forensics in legal proceedings
 
-The purpose of digital forensics is to **support anyone who has to interact with digital evidence in any capacity, in the context of legal proceedings**, with the **necessary domain-specific knowledge** to carry out their duties to the best of their abilities.
+The **practical purpose of the scientific research produced by digital forensics** is to provide **anyone who has to handle or analyze digital evidence** at **any step of a legal proceeding** with the **necessary knowledge and tools** to carry out their duties to the best of their abilities.
 
-This includes **law enforcement officers** (as they seize devices or acquire digital evidence by other means), **evidence custodians** (as they're in charge of safely storing devices containing digital data), **prosecutors** (as they investigate a case), the defendant or the parties' **legal counsel** (as they define their legal strategy), **expert witnesses** (as they will analyze the digital data, and will be called upon to explain their findings before the judge), and the **judge** (as they evaluate the evidence that has been presented in preparation for their decision).
+Digital data is **fragile**. The physical media it's stored on can **deteriorate**, and **become unreadable** or produce **faulty values** if handled improperly. If **digital data is tampered with**, it may be possible to detect these modifications, but it's **impossible to undo** them, and any attempt to reconstruct the previous state is based on guesswork.
 
-That **list should not be considered exhaustive**, since it only mentions the figures involved in civil and criminal proceedings. Different jurisdictions and legal systems may have different figures, but the underlying principle is always the same. **Digital evidence has special requirements**, and the rules and guidelines for its special treatment are prescribed by digital forensics.
+Furthermore, even if digital data is stored properly it still must be **interpreted correctly**, both by **analysis software** and by **human examiners**.
 
-Judges in particular have a very delicate role. Given that digital forensics is a science, this means that **digital evidence can be considered a form of scientific evidence**. There are two standards regarding the admissibility of scientific evidence, which are *Frye* (where scientific methodologies must be **generally accepted by the scientific community**) and *Daubert* (where general acceptance is one of several factors, and judges must also evaluate the **underlying scientific principles**).
+For example, changing a single bit could alter a date by days, months, or years, but even if the date hasn't been altered, the software has to interpret the value correctly. Dates are usually stored as the number of seconds (or a smaller unit of time, such as milliseconds) that have elapsed since a certain date in the past (called *epoch date*, which is different on every operating system[^epoch-dates], but can also be picked arbitrarily[^cobol-date]).
 
-Under the more lenient **Frye standard** there are no issues with tools for the analysis of digital evidence developed as a consequence of proprietary research, as long as they're widely used by professionals. The soundness of its foundation, the **scientific research it was built upon is never put into question**.
+After the software correctly interprets the date, it should also clearly note whether the date that it's displaying to the user is in UTC, or whether it's been converted to the user's local time zone for convenience, or whether the date had an embedded time-zone already[^utc-date].
 
-The **Daubert standard** is more thorough, since in addition to general acceptance judges also have to evaluate whether the theory is **falsifiable** (and whether it has been), whether it has been **published and subjected to peer review**, its known or potential **error rate**, the **existence and maintenance of standards** that control its operation.
+[^epoch-dates]: See D. Lakshmanan, *What Is Epoch Time All About?* (2020). <https://www.maketecheasier.com/what-is-epoch-time/>.
+[^cobol-date]: See Raffzahn's answer in *Did missing/corrupt dates in COBOL default to 1875-05-20?* (2025). <https://retrocomputing.stackexchange.com/a/31290>.
+[^utc-date]: See Stack Overflow, *Daylight saving time and time zone best practices* (2016). <https://stackoverflow.com/questions/2532729/daylight-saving-time-and-time-zone-best-practices>.
 
-**Tools for the analysis of digital evidence developed in accordance with free and open scientific research** are more in line with the **Daubert standard**, since they can address all of these questions. The fact that the claims they make can be scrutinized even in the context of a legal proceeding makes them **inherently more trustworthy**.
+# CONTINUE HERE
 
-More generally, the **legal system favors openness** in trials. Judges must provide an explanation for their decisions, because their decisions would be arbitrary otherwise. Trials are open to the public, because secret trials are fertile ground for all kinds of injustices. Criminal trials can involve a jury, because it ensures that the decision taken by a single authority figure also takes into account the opinion of the public. Defendants have the right to know the charges and the evidence being brought against them, or else they wouldn't know be able to mount a thorough defense.
+----
 
-In this context using proprietary research and tools, which are characterized by their secretiveness and inscrutability, feels like a step backwards. If open, peer-reviewed alternatives are available, they should be favored instead. Having **many elements to evaluate in the context of scientific evidence** is a good problem to have, because it means that the final decision is rooted in a **logical and thorough assessment** of the evidence and the scientific theories underpinning it, **rather than a deferential faith** in a method whose only claim to reliability is its generally acceptance by the scientific community.
+## Source code and machine code
 
-## Software for handling digital evidence
+**Digital evidence** is evidence in the form of **digital data**. **Software** is what allows users to **create, read, update and delete digital data**. Likewise, in order to **handle and analyze digital data for the purposes of a legal proceeding, one must also use software**.
 
-The previous section established the importance of free and open scientific research, and how it's beneficial to legal proceedings, especially under the Daubert standard. It also hinted that the tools to handle digital evidence should be developed on top of scientific research.
+When people talk about software, they're usually referring to **machine code**, a long list of very simple, low-level instructions that a computer can execute. Humans find it hard to read and write machine code, because they prefer to write short lists of very abstract, high-level instructions called **source code**. The difference between source code and machine code is comparable to the difference between saying "go to the store to buy milk" and "check the weather, put on appropriate clothes, get the car keys, lock the front door, turn on the car, check that there's enough fuel in the car" (and so on).
 
-These tools that **handle digital evidence** are **pieces of specialized software**. Their **specialization lies in how they function**, rather than any particular qualifications of their developers.
+Computers can't execute source code as-is. A **compiler** is a piece of software that takes care of translating the abstract instructions found in source code into low-level machine code, so that they can be executed. This is a process known as *compilation*, and it's not reversible. Given machine code, it's impossible to go back to the original source code. All one has is a long list of simple steps, but there's no names to explain what the intent between these steps is.
 
-One can identify several steps in the handling of digital evidence. The most crucial one is **acquisition**, where the software acquires the initial forensic image of the original data. At minimum, the software must ensure that the **forensic image is identical to the original data**, that **it's not altering the original data** and that it **it creates a log file** containing identifying information about the operation (such as a timestamp for the beginning and end of the operation, an identifier for the piece of evidence, the examiner(s), the version of the software, the settings being used, any warnings and diagnostic messages, the forensic image's **cryptographic hash digest**, and so on).
+Therefore, compilation is **necessary** to execute source code, but it also **strips away the original structure** in the resulting machine code. Having **access to the source code is necessary** only if one wants to **make changes** to the software, or **study how it works**. If all one wishes to do is **execute software**, then they can simply use the **machine code**.
 
-It's important that the software can **capture as much data as possible**, and **report any issues** during the acquisition phase, no matter how insignificant they may be. Depending on **how volatile** the data being acquired is (the contents of RAM and network connections are the most volatile types of data), it may be **impossible or risky to retry acquiring it**. Having **partial data** is better than having no data, but a **detailed explanation** of what data has been acquired is necessary.
+## Free software and proprietary software
 
-The final element of acquisition is **digitally signing the log file with a timestamp**. The goal is to prove the **existence and contents** of the document that details of the operation, ideally **as soon as the acquisition ends**. The timestamp should be provided and recorded by a **time-stamping authority**.
+The "free" in free software does not refer to its price[^fsf-selling], but rather, to the **four freedoms**[^fsf-freedoms] which are granted to end-users.
 
-The **storage** step starts after data has been acquired, and lasts until data doesn't have to be retained anymore and can be disposed of. Software used in this step should be able to **verify the data integrity** by calculating its cryptographic hash and **encrypt** the data to ensure that it remains confidential. Software can also be used to maintain a **digital chain of custody**, with handwritten signatures being replaced by **digital signatures** (which can't be forged, and have stronger non-repudiation guarantees).
+[^fsf-selling]: See Free Software Foundation, *What is Free Software?* (2024). <https://www.gnu.org/philosophy/free-sw.html>.
+[^fsf-selling]: See Free Software Foundation, *Selling Free Software* (2021). <https://www.gnu.org/philosophy/selling.html>.
 
-The **analysis** step is chiefly **technical**, and involves **finding elements of interest** in the digital data that has been acquired. This is the step where **scientific research is actualized into software**, and so the developers should take care to implement the published, ideally peer-reviewed scientific findings as closely as possible. They should also make sure that software can **handle invalid data gracefully** (signaling its presence instead of crashing with no explanation or producing invalid results) and that it's **easily extensible** (so that other developers can build on top of it instead of having to start from scratch).
+The first freedom is to **run software for any purpose**. If someone has a copy of the software, they can simply use it. They don't have to ask the developers for prior authorization, and there can be no technological measures in place to restrict its execution.
 
-## Software licenses and free software
+The second freedom is to **study how the software works and modify its source code**. This means that free software **must always provide a copy of the source code**, and can **never be released only in the form of machine code**. Free licenses instead encourage users to gain an understanding of the source code so that they can **understand what the software is doing**, and also so that they can **extend it** to suit their needs, and **improve it** to fix bugs. If the source code is available, but it can't be modified or redistributed[^tarsnap-license] then the program is said to be **proprietary, but source-available**.
 
-The software used in the previous section has a direct bearing on the results that will be presented in court. Just like how **scientific research should be published and peer-reviewed, so should the software** that implements it in practice. To that end, one must consider how software is distributed to the public.
+[^tarsnap-license]: *Tarsnap* is a notable example of software that is source-available, since if the source code is modified, then the modified version can no longer be redistributed. See Tarsnap Backup Inc., *COPYING* (2025). <https://github.com/Tarsnap/tarsnap/blob/master/COPYING>.
 
-From a legal viewpoint, **software is protected by copyright law** as a literary work. This means that **unless stated otherwise, all rights are reserved by the author**. Software is usually distributed with a **license** that regulates what rights are granted to the users of the software.
+The third and fourth freedoms are to **redistribute copies of the software**, and to **redistribute modified copies** respectively. This means that free software can also be **redistributed by anyone who has a copy**, without asking the original developers for permission.
 
-Software developed on the basis of **proprietary research** is often distributed with **restrictive licenses**, that place restrictions on **how the program is executed** (usually a hardware dongle is required, but there may be also limitations on how many users can use the program simultaneously in an organization, licenses may expire after a period, some functionalities could be disabled in cheaper licenses), on **being able to study how the program works** (proprietary research is valuable only as long as it's secret, so there's both legal and technical measures in place to prevent reverse-engineering efforts), on **modifications** (if it's not possible to understand how the program works then it's not possible to modify it either, and there's measures to verify whether the software has been tampered with), and so on.
+If any of these freedoms are missing, then the software is **proprietary**.
 
-The opposite of proprietary licenses are **free software licenses**, as defined by the *Free Software Foundation*, which are designed to **grant freedoms** to end users.
+**Proprietary software** often **limits the user's ability to execute it**, by means of a hardware dongle or other measures to that effect. These limitations may affect how many users can use the software, or what features they are allowed to use. It usually **doesn't distribute its source code**, because if it exposed how it works, it'd be **tantamount to revealing trade secrets**, and it would lose its advantage over the competitors. It often features measures intended to **prevent people from studying how it works** (there's measures to prevent reverse-engineering), and as a consequence **it can't be modified** either (there's measures to block the software's execution if it's been tampered with). Finally, proprietary software often forbids users from redistributing it by creating new copies, in order to not lose on sales.
 
-It should be noted that the adjective **"free" refers to freedom, not price**. While it is true that free software is usually distributed free of charge, it can also be sold. For that reason, the expressions "**free and open source software**" or "**libre software**" are often used to clear any ambiguity.
+## Software licenses
 
-The first freedom is to **run software for any purpose**. If someone has a copy of the software, they can simply use it. They do not have to obtain the authorization to do so from the developers or a reseller in the form of a hardware dongles, or other measures to that effect. There can't be any artificial limitations of how the user can run the software, or what they can do with it.
+In practice, the freedoms of free software and the limitations of proprietary software are defined in a **software license**, a **contract** between the developer of the software and the end-user which determines what rights are granted to the users of the software, to what extent, and under which conditions.
 
-The second freedom is to **study how the software works and modify its source code**. Proprietary software usually doesn't distribute its source code, because it contains a human-readable description of the algorithms it uses (which are trade secrets), and this would be tantamount to distributing the proprietary research that it's based on. Free licenses instead encourage users to gain an understanding of the source code so that they can **understand what the software is doing**, and also so that they can **extend it** to suit their needs, and **improve it** to fix bugs.
+Art. 10 of the *TRIPS Agreement* establishes that **software is protected by copyright law as a literary work**, as defined in art. 2 of the *Berne Convention*. This means that **the developers reserve all rights** on the **creation of copies and derivative works** on the software they create, unless stated otherwise.
 
-It should be noted that if source code is released, but the license forbids modifying it, redistributing it, or any other use, then the program is said to be **proprietary, but source-available**. The only advantage over ordinary proprietary software is that one can inspect how the program functions, but they can't participate in its improvement.
+For example, as far as copyright law is concerned even simply executing software is considered creating a copy of the work, since the software has to be copied from the disk to memory in order to be executed. This means that "executing the program" is a right which must be granted explicitly.
 
-The third and fourth freedoms are to **redistribute copies of the software**, and to **redistribute modified copies** respectively. This effectively means that software released under free licenses grants everyone the **right to create copies and derivative works** of the original software.
+**Proprietary software licenses** follows the **traditional model of copyright law**, where **end-users are strictly consumers of the copyrighted work**, and are not allowed to create derivative works or further redistribute the work. The author's rights, and the limitations on the end-user that stem from them can be **enforced at the software level** and **circumvention or removal** of these measures is **unlawful**, as per art. 11 and 12 of the *WIPO Copyright Treaty*.
 
-The **free software model** is particularly fitting for the software developed during **scientific research** in the field of digital forensics. It enables everyone to download the software, test it, study it, and make and share improvements. Just like how **scientific research and legal proceedings are open rather than secretive**, so should be the **software that acts as a link between the two**.
-
-Free software licenses can be grouped in two groups. **Permissive licenses** place minimal restrictions on code reuse, and **proprietary software** can **freely use, modify and redistribute** code released under these licenses. The main requirement is simply to **preserve the copyright notice**, so that the usage of the software and the authors who worked on it can be acknowledged.
-
-On the other hand, **copyleft licenses** allow the use, modification and redistribution of code on the condition that **the resulting new code adopts the same license**. This **automatic self-propagation** of the license ensures and enforces that **source code remains always available**, so that it can be **studied** to know how it works, but also **modified** to improve it, or to **ensure it remains up-to-date** with new scientific research, and with new versions of other software and operating systems.
+On the other hand, **free software licenses** use **copyright law to enforce the freedoms that define free software**. In particular, **copyleft licenses** like the *GNU GPL* allow the use, **modification** and redistribution of code on the condition that **the resulting code adopts the same license**. The practical effect of the self-propagation of the license is that **source code remains always available**.
 
 ## Downsides of proprietary software
 
@@ -240,6 +177,38 @@ Finally, proprietary software's **highly centralized** nature means that it suff
 In other words, **proprietary research is always at risk of extinction**, of becoming a fossilized relic. Worse yet, the extinction of a piece of proprietary software also means that all the **research efforts** that went into creating the software will be **lost along with it**, and that they can't be salvaged.
 
 These traits may not be an issue, but they're **critical flaws** when it comes to a subject that **requires scientific rigor** as much as digital forensics does.
+
+## My personal experience with proprietary software
+
+During my internship, I had the chance to use various proprietary industry-standard tools. I'd made various predictions regarding proprietary software in my dissertation. At the time were based on speculation and informed guesses, but as my internship progressed, I learned that they turned out to be accurate.
+
+The first issue with proprietary software is that it's **prohibitively expensive** to use. The company I worked with spent tens of thousands of euros in licenses alone each year. The high cost meant that we could only work with a **limited number of licenses** at the same time, which **reduced productivity** (we had to take turns while using software) and **increased stress** (we constantly had to plan around the limited amount of licenses, especially in the case of large workloads).
+
+Software was **extremely inefficient** (despite us running it on top-of-the-line hardware), and **lacked the most basic quality-of-life features**. In particular, software that performed long-running operations would go on without reporting any progress to the user for long stretches of time. Due to this lack of feedback, the user was never quite sure whether the program was still working or had hung up. This uncertainty resulted in lost productivity, since one had to wait until the program was stuck for an "unreasonable" amount of time, and further stress, because terminating the process when it wasn't actually stuck meant having to start over.
+
+Software was **inflexible and unforgiving**. Many pieces of software asked the user to specify the analysis methods and their options used upfront, with no option to run additional methods later, or re-run individual methods with different options. If the user made a mistake, or realized that the results weren't what they needed or expected, they couldn't simply re-run a part of the analysis, they had to redo everything from scratch. Even if the user made no mistakes, but the software had any sort of issues during the analysis process, the only solution was to delete everything and start over.
+
+Software was **poorly documented**. The manuals and built-in help didn't provide useful advice, so they **always left the user with a lingering doubt** as to whether they were missing something and whether the results were actually what they expected them to be. This not only compounded the previous problem, but also meant that asking coworkers for advice often led to conflicting answers. This is probably the **most significant** issue, because if **users are not sure of what the software has done**, then **any decision that is based on these results is potentially faulty**, since the **results may be uncertain, incomplete or erroneous, if not all three**.
+
+Software **did not provide useful error messages**. Operations would often fail silently, without warnings or explanations. Error messages were generic, with no indication regarding what went wrong, or any possible causes or solutions. Again, this lack of useful or actionable feedback **makes the user question whether the software is actually behaving correctly** when no errors are reported.
+
+Software sometimes presented **arbitrary limitations**. They weren't limitations imposed as part of the license that we were using, these were limitations inherent to the software itself. Having some experience in programming, I know that arbitrary limitations are often a symptom of issues that haven't been addressed in the underlying code, and the easier fix is simply to introduce a limitation instead of reworking the software to be more flexible or efficient. A real-world analogy is having a bridge that needs to be repaired. Telling people to simply avoid the bridge (and take a much longer route) is easier than actually investing the resources needed to fix the bridge.
+
+Software was **unstable and unreliable**. Every employee would experience a tools crashing for no clear reason or getting stuck while processing data at least once every day. An hour wouldn't go by in the office without someone complaining about software not working properly. If "turning it off and on again" didn't work, one had to rely on support. Support tickets were routinely closed without solving the problem. Solutions didn't last long before another issue would grind work to a halt. Employees probably wasted as much time troubleshooting issues and working around software limitations as they did doing productive work.
+
+Software was **too streamlined**. Perhaps the intention was to make it as intuitive as possible, but in practice this meant that software was inflexible in what options it offered. Even when it allowed users to write extensions to augment its capabilities, doing so was so difficult and poorly documented that it may as well not have been a feature at all.
+
+Software was **resilient to automation**. Everything had to be done interactively, and there was often no way to batch operations in advance, meaning that users often had to access their workstations remotely (after leaving work and returning home) to check on software, and ensure that work would get done in a timely manner.
+
+Software was **limited in its output formats**. There was rarely an option to produce output in a structured data format that was easy to process further, most options were intended for creating generic reports for non-technical users that rarely matched our needs, and customization was either limited or absent.
+
+On several occasions **I wrote purpose-built tools to automate work** as much as possible, since the alternative was mind-numbing and error-prone manual labor.
+
+On a few occasion, my knowledge about **FOSS alternatives** proved useful to help colleagues **work around arbitrary limitations** found in proprietary tools. Finally, there were situations with faulty devices where proprietary software refused to produce any output, while FOSS alternatives managed to generate a **more detailed report** that could be used to demonstrate that the device was faulty.
+
+I've also seen colleagues use FOSS tools simply because there were no proprietary tools that could perform the same task.
+
+The rest of this document will explain why that's the case.
 
 ## Benefits of free and open software
 
