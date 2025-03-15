@@ -6,6 +6,9 @@
 
 - [On digital forensics](#on-digital-forensics)
   - [Introduction](#introduction)
+  - [Source code and machine code](#source-code-and-machine-code)
+  - [Free software and proprietary software](#free-software-and-proprietary-software)
+  - [Software licenses](#software-licenses)
   - [Digital forensics](#digital-forensics)
   - [Scientific research in digital forensics](#scientific-research-in-digital-forensics)
   - [Importance of free software in scientific research](#importance-of-free-software-in-scientific-research)
@@ -14,9 +17,6 @@
   - [Storing and preserving digital evidence](#storing-and-preserving-digital-evidence)
   - [Analyzing digital evidence](#analyzing-digital-evidence)
   - [Evaluating digital evidence](#evaluating-digital-evidence)
-  - [Source code and machine code](#source-code-and-machine-code)
-  - [Free software and proprietary software](#free-software-and-proprietary-software)
-  - [Software licenses](#software-licenses)
   - [Downsides of proprietary software](#downsides-of-proprietary-software)
   - [My personal experience with proprietary software](#my-personal-experience-with-proprietary-software)
   - [Benefits of free and open software](#benefits-of-free-and-open-software)
@@ -38,6 +38,47 @@ This document is organized as follows. The first section will explain what are t
 The second section will explain what is digital forensics. It will provide a definition of the subject, elaborate on its ties to the scientific method and legal proceedings, and why the FOSS model is a better fit for the subject.
 
 The last section will provide examples of FOSS in digital forensics.
+
+## Source code and machine code
+
+**Digital evidence** is evidence in the form of **digital data**. **Software** is what allows users to **create, read, update and delete digital data**. Likewise, in order to **handle and analyze digital data for the purposes of a legal proceeding, one must also use software**.
+
+When people talk about software, they're usually referring to **machine code**, a long list of very simple, low-level instructions that a computer can execute. Humans find it hard to read and write machine code, because they prefer to write short lists of very abstract, high-level instructions called **source code**. The difference between source code and machine code is comparable to the difference between saying "go to the store to buy milk" and "check the weather, put on appropriate clothes, get the car keys, lock the front door, turn on the car, check that there's enough fuel in the car" (and so on).
+
+Computers can't execute source code as-is. A **compiler** is a piece of software that takes care of translating the abstract instructions found in source code into low-level machine code, so that they can be executed. This is a process known as *compilation*, and it's not reversible. Given machine code, it's impossible to go back to the original source code. All one has is a long list of simple steps, but there's no names to explain what the intent between these steps is.
+
+Therefore, compilation is **necessary** to execute source code, but it also **strips away the original structure** in the resulting machine code. Having **access to the source code is necessary** only if one wants to **make changes** to the software, or **study how it works**. If all one wishes to do is **execute software**, then they can simply use the **machine code**.
+
+## Free software and proprietary software
+
+The "free" in free software does not refer to its price[^fsf-selling], but rather, to the **four freedoms**[^fsf-freedoms] which are granted to end-users.
+
+[^fsf-selling]: See Free Software Foundation, *What is Free Software?* (2024). <https://www.gnu.org/philosophy/free-sw.html>.
+[^fsf-selling]: See Free Software Foundation, *Selling Free Software* (2021). <https://www.gnu.org/philosophy/selling.html>.
+
+The first freedom is to **run software for any purpose**. If someone has a copy of the software, they can simply use it. They don't have to ask the developers for prior authorization, and there can be no technological measures in place to restrict its execution.
+
+The second freedom is to **study how the software works and modify its source code**. This means that free software **must always provide a copy of the source code**, and can **never be released only in the form of machine code**. Free licenses instead encourage users to gain an understanding of the source code so that they can **understand what the software is doing**, and also so that they can **extend it** to suit their needs, and **improve it** to fix bugs. If the source code is available, but it can't be modified or redistributed[^tarsnap-license] then the program is said to be **proprietary, but source-available**.
+
+[^tarsnap-license]: *Tarsnap* is a notable example of software that is source-available, since if the source code is modified, then the modified version can no longer be redistributed. See Tarsnap Backup Inc., *COPYING* (2025). <https://github.com/Tarsnap/tarsnap/blob/master/COPYING>.
+
+The third and fourth freedoms are to **redistribute copies of the software**, and to **redistribute modified copies** respectively. This means that free software can also be **redistributed by anyone who has a copy**, without asking the original developers for permission.
+
+If any of these freedoms are missing, then the software is **proprietary**.
+
+**Proprietary software** often **limits the user's ability to execute it**, by means of a hardware dongle or other measures to that effect. These limitations may affect how many users can use the software, or what features they are allowed to use. It usually **doesn't distribute its source code**, because if it exposed how it works, it'd be **tantamount to revealing trade secrets**, and it would lose its advantage over the competitors. It often features measures intended to **prevent people from studying how it works** (there's measures to prevent reverse-engineering), and as a consequence **it can't be modified** either (there's measures to block the software's execution if it's been tampered with). Finally, proprietary software often forbids users from redistributing it by creating new copies, in order to not lose on sales.
+
+## Software licenses
+
+In practice, the freedoms of free software and the limitations of proprietary software are defined in a **software license**, a **contract** between the developer of the software and the end-user which determines what rights are granted to the users of the software, to what extent, and under which conditions.
+
+Art. 10 of the *TRIPS Agreement* establishes that **software is protected by copyright law as a literary work**, as defined in art. 2 of the *Berne Convention*. This means that **the developers reserve all rights** on the **creation of copies and derivative works** on the software they create, unless stated otherwise.
+
+For example, as far as copyright law is concerned even simply executing software is considered creating a copy of the work, since the software has to be copied from the disk to memory in order to be executed. This means that "executing the program" is a right which must be granted explicitly.
+
+**Proprietary software licenses** follows the **traditional model of copyright law**, where **end-users are strictly consumers of the copyrighted work**, and are not allowed to create derivative works or further redistribute the work. The author's rights, and the limitations on the end-user that stem from them can be **enforced at the software level** and **circumvention or removal** of these measures is **unlawful**, as per art. 11 and 12 of the *WIPO Copyright Treaty*.
+
+On the other hand, **free software licenses** use **copyright law to enforce the freedoms that define free software**. In particular, **copyleft licenses** like the *GNU GPL* allow the use, **modification** and redistribution of code on the condition that **the resulting code adopts the same license**. The practical effect of the self-propagation of the license is that **source code remains always available**.
 
 ## Digital forensics
 
@@ -163,49 +204,6 @@ The **Daubert standard** is more thorough, since in addition to general acceptan
 More generally, the **legal system favors openness** in trials. Judges must provide an explanation for their decisions, because their decisions would be arbitrary otherwise. Trials are open to the public, because secret trials are fertile ground for all kinds of injustices. Criminal trials can involve a jury, because it ensures that the decision taken by a single authority figure also takes into account the opinion of the public. Defendants have the right to know the charges and the evidence being brought against them, or else they wouldn't know be able to mount a thorough defense.
 
 In this context using proprietary research and tools, which are characterized by their secretiveness and inscrutability, feels like a step backwards. If open, peer-reviewed alternatives are available, they should be favored instead. Having **many elements to evaluate in the context of scientific evidence** is a good problem to have, because it means that the final decision is rooted in a **logical and thorough assessment** of the evidence and the scientific theories underpinning it, **rather than a deferential faith** in a method whose only claim to reliability is its generally acceptance by the scientific community.
-
-----
-
-## Source code and machine code
-
-**Digital evidence** is evidence in the form of **digital data**. **Software** is what allows users to **create, read, update and delete digital data**. Likewise, in order to **handle and analyze digital data for the purposes of a legal proceeding, one must also use software**.
-
-When people talk about software, they're usually referring to **machine code**, a long list of very simple, low-level instructions that a computer can execute. Humans find it hard to read and write machine code, because they prefer to write short lists of very abstract, high-level instructions called **source code**. The difference between source code and machine code is comparable to the difference between saying "go to the store to buy milk" and "check the weather, put on appropriate clothes, get the car keys, lock the front door, turn on the car, check that there's enough fuel in the car" (and so on).
-
-Computers can't execute source code as-is. A **compiler** is a piece of software that takes care of translating the abstract instructions found in source code into low-level machine code, so that they can be executed. This is a process known as *compilation*, and it's not reversible. Given machine code, it's impossible to go back to the original source code. All one has is a long list of simple steps, but there's no names to explain what the intent between these steps is.
-
-Therefore, compilation is **necessary** to execute source code, but it also **strips away the original structure** in the resulting machine code. Having **access to the source code is necessary** only if one wants to **make changes** to the software, or **study how it works**. If all one wishes to do is **execute software**, then they can simply use the **machine code**.
-
-## Free software and proprietary software
-
-The "free" in free software does not refer to its price[^fsf-selling], but rather, to the **four freedoms**[^fsf-freedoms] which are granted to end-users.
-
-[^fsf-selling]: See Free Software Foundation, *What is Free Software?* (2024). <https://www.gnu.org/philosophy/free-sw.html>.
-[^fsf-selling]: See Free Software Foundation, *Selling Free Software* (2021). <https://www.gnu.org/philosophy/selling.html>.
-
-The first freedom is to **run software for any purpose**. If someone has a copy of the software, they can simply use it. They don't have to ask the developers for prior authorization, and there can be no technological measures in place to restrict its execution.
-
-The second freedom is to **study how the software works and modify its source code**. This means that free software **must always provide a copy of the source code**, and can **never be released only in the form of machine code**. Free licenses instead encourage users to gain an understanding of the source code so that they can **understand what the software is doing**, and also so that they can **extend it** to suit their needs, and **improve it** to fix bugs. If the source code is available, but it can't be modified or redistributed[^tarsnap-license] then the program is said to be **proprietary, but source-available**.
-
-[^tarsnap-license]: *Tarsnap* is a notable example of software that is source-available, since if the source code is modified, then the modified version can no longer be redistributed. See Tarsnap Backup Inc., *COPYING* (2025). <https://github.com/Tarsnap/tarsnap/blob/master/COPYING>.
-
-The third and fourth freedoms are to **redistribute copies of the software**, and to **redistribute modified copies** respectively. This means that free software can also be **redistributed by anyone who has a copy**, without asking the original developers for permission.
-
-If any of these freedoms are missing, then the software is **proprietary**.
-
-**Proprietary software** often **limits the user's ability to execute it**, by means of a hardware dongle or other measures to that effect. These limitations may affect how many users can use the software, or what features they are allowed to use. It usually **doesn't distribute its source code**, because if it exposed how it works, it'd be **tantamount to revealing trade secrets**, and it would lose its advantage over the competitors. It often features measures intended to **prevent people from studying how it works** (there's measures to prevent reverse-engineering), and as a consequence **it can't be modified** either (there's measures to block the software's execution if it's been tampered with). Finally, proprietary software often forbids users from redistributing it by creating new copies, in order to not lose on sales.
-
-## Software licenses
-
-In practice, the freedoms of free software and the limitations of proprietary software are defined in a **software license**, a **contract** between the developer of the software and the end-user which determines what rights are granted to the users of the software, to what extent, and under which conditions.
-
-Art. 10 of the *TRIPS Agreement* establishes that **software is protected by copyright law as a literary work**, as defined in art. 2 of the *Berne Convention*. This means that **the developers reserve all rights** on the **creation of copies and derivative works** on the software they create, unless stated otherwise.
-
-For example, as far as copyright law is concerned even simply executing software is considered creating a copy of the work, since the software has to be copied from the disk to memory in order to be executed. This means that "executing the program" is a right which must be granted explicitly.
-
-**Proprietary software licenses** follows the **traditional model of copyright law**, where **end-users are strictly consumers of the copyrighted work**, and are not allowed to create derivative works or further redistribute the work. The author's rights, and the limitations on the end-user that stem from them can be **enforced at the software level** and **circumvention or removal** of these measures is **unlawful**, as per art. 11 and 12 of the *WIPO Copyright Treaty*.
-
-On the other hand, **free software licenses** use **copyright law to enforce the freedoms that define free software**. In particular, **copyleft licenses** like the *GNU GPL* allow the use, **modification** and redistribution of code on the condition that **the resulting code adopts the same license**. The practical effect of the self-propagation of the license is that **source code remains always available**.
 
 ## Downsides of proprietary software
 
